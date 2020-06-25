@@ -1,6 +1,8 @@
 package co.com.system.service;
 
 import co.com.system.pojo.Point;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.function.BiFunction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +14,11 @@ public class CoordinatesService {
   @Autowired private DecimalFormat calculationsDecimalFormat;
 
   public double calculateXCoordinate(int radius, int degree) {
-    return Double.parseDouble(
-        calculationsDecimalFormat.format(radius * Math.cos(Math.toRadians(degree))));
+    return round(radius * Math.cos(Math.toRadians(degree)), 9);
   }
 
   public double calculateYCoordinate(int radius, int degree) {
-    return Double.parseDouble(
-        calculationsDecimalFormat.format(radius * Math.sin(Math.toRadians(degree))));
+    return round(radius * Math.sin(Math.toRadians(degree)),9);
   }
 
   public boolean checkCoolinearPoints(Point p1, Point p2, Point p3) {
@@ -39,9 +39,11 @@ public class CoordinatesService {
   public double calculateTriangleArea(Point... t) {
     // The triangle area formed by coordinates is given by the determinant of the points divided by
     // 2 (in this case it is not necessary and could affect the float accuracy)
-    // ((x1*y2 + x2*y3 + x3y1) – (x1y3 – x2y1 – x3y2))/2
-    return ((t[0].getX() * t[1].getY()) + (t[1].getX() * t[2].getY()) + (t[2].getX() * t[0].getY()))
-        - ((t[0].getX() * t[2].getY()) - (t[1].getX() * t[0].getY()) - (t[2].getX() * t[1].getY()));
+    // ((x1*y2 + x2*y3 + x3y1) – (x1y3 + x2y1 + x3y2))/2
+    double result = ((t[0].getX() * t[1].getY()) + (t[1].getX() * t[2].getY()) + (t[2].getX() * t[0].getY()))
+        - ((t[0].getX() * t[2].getY()) + (t[1].getX() * t[0].getY()) + (t[2].getX() * t[1].getY()));
+
+    return (Math.abs(result))/2;
   }
 
   public double calculateTrianglePerimeter(Point... points) {
@@ -61,5 +63,13 @@ public class CoordinatesService {
     distanceCA = pointsDistance.apply(points[2], points[0]);
 
     return distanceAB + distanceBC + distanceCA;
+  }
+
+  public static double round(double value, int places) {
+    if (places < 0) throw new IllegalArgumentException();
+
+    BigDecimal bd = BigDecimal.valueOf(value);
+    bd = bd.setScale(places, RoundingMode.HALF_UP);
+    return bd.doubleValue();
   }
 }

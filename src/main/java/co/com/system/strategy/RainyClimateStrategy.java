@@ -23,6 +23,9 @@ public class RainyClimateStrategy extends WeatherCalculatorStrategy{
     Planet vulcano = solarSystem.getPlanets().get(PlanetEnum.VULCANO);
 
     System.out.println("Day: " +dailyResume.getDayOfCalculation());
+    if(dailyResume.getDayOfCalculation() == 468){
+      System.out.println("468");
+    }
     boolean isSunInsideTriangle =
         checkSunInsidePlanetsTriangle(new Point(0,0), ferengi, betasoide, vulcano);
 
@@ -60,7 +63,13 @@ public class RainyClimateStrategy extends WeatherCalculatorStrategy{
             + areaT1PT3
             + " ::: ABP: "
             + areaT1T2P);
-    return planetsTriangleArea == (areaPT2T3 + areaT1PT3 + areaT1T2P);
+
+    return
+        (areaPT2T3 + areaT1PT3 + areaT1T2P) <= (planetsTriangleArea +0.01) &&
+        (areaPT2T3 + areaT1PT3 + areaT1T2P) >= (planetsTriangleArea -0.01);
+      /*areaPT2T3 < 0
+        && areaT1PT3 < 0
+        && areaT1T2P < 0;*/
   }
 
 }
