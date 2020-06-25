@@ -18,10 +18,10 @@ public class SystemWeatherController {
   @Autowired
   private CycleService cycleService;
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  /*@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<DailyResume> getDayWeather(@RequestParam("dia") int day){
-    return ResponseEntity.status(200).body(cycleService.calculateWeatherPerDay(day));
-  }
+    return ResponseEntity.status(200).body(cycleService.calculateWeatherOverPeriod(day));
+  }*/
 
   @GetMapping(value = "/period", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<PlanetResumeDto> executeJobWeather(@RequestParam(required = false, name = "dias", defaultValue = "0") int days){

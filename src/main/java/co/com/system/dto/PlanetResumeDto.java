@@ -1,7 +1,9 @@
 package co.com.system.dto;
 
+import co.com.system.pojo.DailyResume;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -12,4 +14,5 @@ public class PlanetResumeDto {
   private String rainDays;
   private String maxRainDay;
   private String optimalPressureTemperatureDays;
+  private List<DailyResume> dailyResume;
 }
