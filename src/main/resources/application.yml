@@ -1,0 +1,24 @@
+time:
+  job:
+    cron-expression: '0 0 12 ? * *'
+  config:
+    days-of-year: 365
+    days-to-calculate: 3650
+planets:
+  config:
+    planets:
+      FERENGI:
+        name: 'Ferengi'
+        direction: CLOCKWISE
+        degrees-per-day: 1
+        distance-from-sun: 500
+      BETASOIDE:
+        name: 'Betasoide'
+        direction: CLOCKWISE
+        degrees-per-day: 3
+        distance-from-sun: 2000
+      VULCANO:
+        name: 'Vulcano'
+        direction: COUNTERCLOCKWISE
+        degrees-per-day: 5
+        distance-from-sun: 1000
