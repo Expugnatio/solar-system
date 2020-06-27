@@ -10,7 +10,7 @@ time:
 
 The Application has 3 endpoints with base url: "localhost:9080"
 
-1. GET /system/weather?day=XX #Gets records from the 'DB' (previously populated by the Job), if not executed creates the record and saves it
+1. GET /system/weather?day=XX #Gets records from the 'DB' (previously populated by the Job), if job has not been executed it calculates the record and saves it
 
 2. GET /system/weather/job #Simulates the Job Execution
 
