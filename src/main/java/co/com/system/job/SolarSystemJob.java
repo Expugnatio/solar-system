@@ -1,8 +1,9 @@
 package co.com.system.job;
 
+import co.com.system.repository.WeatherRepository;
 import co.com.system.service.CycleService;
 import java.text.SimpleDateFormat;
-import javax.annotation.PostConstruct;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,18 +11,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class SolarSystemJob {
 
-  @Autowired
-  private CycleService cycleService;
-
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-  @PostConstruct
+  @Autowired private WeatherRepository weatherRepository;
 
-
+  @Autowired private CycleService cycleService;
 
   @Scheduled(cron = "${time.job.cron-expression:-}")
-  public void reportCurrentTime() {
-    cycleService.calculateWeatherOverPeriodStream(0);
-    //log.info("The time is now {}", dateFormat.format(new Date()));
+  public void generateRegistersJob() {
+    cycleService
+        .calculateWeatherOverPeriodStream(0)
+        .getSystemDailyResume()
+        .forEach(weatherRepository::saveRegister);
+    System.out.println("Job Executed Succesfully at " + dateFormat.format(new Date()));
   }
 }

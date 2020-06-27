@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.function.BiFunction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,12 +14,11 @@ public class CoordinatesService {
 
   @Autowired private DecimalFormat calculationsDecimalFormat;
 
-  public double calculateXCoordinate(int radius, int degree) {
-    return round(radius * Math.cos(Math.toRadians(degree)), 9);
-  }
-
-  public double calculateYCoordinate(int radius, int degree) {
-    return round(radius * Math.sin(Math.toRadians(degree)),9);
+  @Cacheable("coordinatesCache")
+  public Point calculateCoordinates(int radius, int degree){
+    return new Point(
+        round(radius * Math.cos(Math.toRadians(degree)), 9),
+        round(radius * Math.sin(Math.toRadians(degree)),9));
   }
 
   public boolean checkCoolinearPoints(Point p1, Point p2, Point p3) {
@@ -31,8 +31,6 @@ public class CoordinatesService {
 
     double slope2 = (p3.getY() - p2.getY()) * (p2.getX() - p1.getX());
 
-    System.out.println("pendientes: " + slope1 + " ::: " + slope2);
-    System.out.println("________________________________________");
     return slope1 == slope2;
   }
 
