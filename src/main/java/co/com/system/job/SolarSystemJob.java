@@ -1,5 +1,6 @@
 package co.com.system.job;
 
+import co.com.system.config.TimeConfig;
 import co.com.system.repository.WeatherRepository;
 import co.com.system.service.CycleService;
 import java.text.SimpleDateFormat;
@@ -17,10 +18,12 @@ public class SolarSystemJob {
 
   @Autowired private CycleService cycleService;
 
+  @Autowired private TimeConfig timeConfig;
+
   @Scheduled(cron = "${time.job.cron-expression:-}")
   public void generateRegistersJob() {
     cycleService
-        .calculateWeatherOverPeriodStream(0)
+        .calculateWeatherOverPeriodStream(timeConfig.getDaysToCalculate())
         .getSystemDailyResume()
         .forEach(weatherRepository::saveRegister);
     System.out.println("Job Executed Succesfully at " + dateFormat.format(new Date()));

@@ -1,25 +1,21 @@
 package co.com.system.service;
 
-import co.com.system.config.SolarSystem;
 import co.com.system.config.TimeConfig;
 import co.com.system.dto.SystemPeriodResumeDto;
-import co.com.system.enums.DirectionEnum;
 import co.com.system.enums.WeatherEnum;
 import co.com.system.pojo.SystemDailyResume;
-import co.com.system.pojo.Planet;
-import co.com.system.pojo.Point;
 import co.com.system.repository.WeatherRepository;
-import co.com.system.strategy.WeatherCalculatorStrategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
@@ -32,7 +28,7 @@ public class CycleService {
   public SystemPeriodResumeDto calculateWeatherOverPeriodStream(int days) {
 
     Map<WeatherEnum, List<SystemDailyResume>> daysPerWeather =
-        IntStream.range(1, days > 0 ? (days + 1) : timeConfig.getDaysToCalculate())
+        IntStream.range(1, (days+1))
             .mapToObj(dailyWeatherService::createDailyWeatherResume)
             .collect(Collectors.groupingBy(SystemDailyResume::getWeather));
 
