@@ -2,7 +2,7 @@ package co.com.system.strategy;
 
 import co.com.system.config.SolarSystem;
 import co.com.system.enums.PlanetEnum;
-import co.com.system.pojo.DailyResume;
+import co.com.system.pojo.SystemDailyResume;
 import co.com.system.pojo.Planet;
 import co.com.system.pojo.Point;
 import co.com.system.service.CoordinatesService;
@@ -16,27 +16,25 @@ public class RainyClimateStrategy extends WeatherCalculatorStrategy{
   }
 
   @Override
-  public DailyResume calculateDailyWeather(SolarSystem solarSystem, DailyResume dailyResume) {
+  public SystemDailyResume calculateDailyWeather(SolarSystem solarSystem, SystemDailyResume systemDailyResume) {
 
     Planet ferengi = solarSystem.getPlanets().get(PlanetEnum.FERENGI);
     Planet betasoide = solarSystem.getPlanets().get(PlanetEnum.BETASOIDE);
     Planet vulcano = solarSystem.getPlanets().get(PlanetEnum.VULCANO);
 
-    System.out.println("Day: " +dailyResume.getDayOfCalculation());
-    if(dailyResume.getDayOfCalculation() == 468){
-      System.out.println("468");
-    }
+    System.out.println("Day: " + systemDailyResume.getDayOfCalculation());
+
     boolean isSunInsideTriangle =
         checkSunInsidePlanetsTriangle(new Point(0,0), ferengi, betasoide, vulcano);
 
-    dailyResume.setSunInPlanetsTriangle(isSunInsideTriangle);
-    dailyResume.setPlanetTrianglePerimeter(
+    systemDailyResume.setSunInPlanetsTriangle(isSunInsideTriangle);
+    systemDailyResume.setPlanetTrianglePerimeter(
         coordinatesService.calculateTrianglePerimeter(
             ferengi.getCartesianLocation(),
             betasoide.getCartesianLocation(),
             vulcano.getCartesianLocation()));
 
-    return dailyResume;
+    return systemDailyResume;
   }
 
   public boolean checkSunInsidePlanetsTriangle(Point p, Planet t1, Planet t2, Planet t3) {
@@ -67,9 +65,6 @@ public class RainyClimateStrategy extends WeatherCalculatorStrategy{
     return
         (areaPT2T3 + areaT1PT3 + areaT1T2P) <= (planetsTriangleArea +0.01) &&
         (areaPT2T3 + areaT1PT3 + areaT1T2P) >= (planetsTriangleArea -0.01);
-      /*areaPT2T3 < 0
-        && areaT1PT3 < 0
-        && areaT1T2P < 0;*/
   }
 
 }

@@ -2,6 +2,7 @@ package co.com.system.job;
 
 import co.com.system.service.CycleService;
 import java.text.SimpleDateFormat;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,9 +15,13 @@ public class SolarSystemJob {
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-  @Scheduled(cron = "${time.job.cronExpression:-}")
+  @PostConstruct
+
+
+
+  @Scheduled(cron = "${time.job.cron-expression:-}")
   public void reportCurrentTime() {
-    cycleService.calculateWeatherOverPeriod(0);
+    cycleService.calculateWeatherOverPeriodStream(0);
     //log.info("The time is now {}", dateFormat.format(new Date()));
   }
 }

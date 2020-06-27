@@ -3,7 +3,7 @@ package co.com.system.strategy;
 import co.com.system.config.SolarSystem;
 import co.com.system.enums.PlanetEnum;
 import co.com.system.pojo.AlignmentResult;
-import co.com.system.pojo.DailyResume;
+import co.com.system.pojo.SystemDailyResume;
 import co.com.system.pojo.Planet;
 import co.com.system.pojo.Point;
 import co.com.system.service.CoordinatesService;
@@ -17,17 +17,17 @@ public class DroughtClimateStrategy extends WeatherCalculatorStrategy{
   }
 
   @Override
-  public DailyResume calculateDailyWeather(SolarSystem solarSystem, DailyResume dailyResume) {
+  public SystemDailyResume calculateDailyWeather(SolarSystem solarSystem, SystemDailyResume systemDailyResume) {
 
     AlignmentResult alignmentResult = checkSolarSystemAlignment(
         solarSystem.getPlanets().get(PlanetEnum.FERENGI),
         solarSystem.getPlanets().get(PlanetEnum.BETASOIDE),
         solarSystem.getPlanets().get(PlanetEnum.VULCANO));
 
-    dailyResume.setAllPlanetsAligned(alignmentResult.isPlanetsAligned());
-    dailyResume.setAlignedWithSun(alignmentResult.isAlignedWithSun());
+    systemDailyResume.setAllPlanetsAligned(alignmentResult.isPlanetsAligned());
+    systemDailyResume.setAlignedWithSun(alignmentResult.isAlignedWithSun());
 
-    return dailyResume;
+    return systemDailyResume;
   }
 
   private AlignmentResult checkSolarSystemAlignment(Planet... planets) {

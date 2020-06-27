@@ -65,7 +65,7 @@ public class CoordinatesService {
     return distanceAB + distanceBC + distanceCA;
   }
 
-  public static double round(double value, int places) {
+  private static double round(double value, int places) {
     if (places < 0) throw new IllegalArgumentException();
 
     BigDecimal bd = BigDecimal.valueOf(value);

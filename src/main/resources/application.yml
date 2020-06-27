@@ -1,6 +1,9 @@
+server:
+  port: 9080
+
 time:
   job:
-    cron-expression: '0 0 12 ? * *'
+    cron-expression: '0 01 0 ? * *'
   config:
     days-of-year: 365
     days-to-calculate: 3650
