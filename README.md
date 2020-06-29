@@ -7,6 +7,14 @@ time:
   job:
     cron-expression: '0 01 0 ? * *' #This is the default
 ```
+To view planets position in a specific day I've managed to setup the following math graphs:
+
+```
+https://www.desmos.com/calculator/mwtus6ijl8
+```
+
+The only thing yo have to do is to modify the "g" constant
+
 
 The Application has 3 endpoints with base url: "localhost:9080"
 
