@@ -16,7 +16,8 @@ public class SolarSystemExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity handleGeneralExceptions(){
+  public ResponseEntity handleGeneralExceptions( Exception e){
+    e.printStackTrace();
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error, Sorry for the inconveniences");
   }
 

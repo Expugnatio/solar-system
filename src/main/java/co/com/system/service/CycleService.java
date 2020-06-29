@@ -34,9 +34,13 @@ public class CycleService {
 
     SystemPeriodResumeDto systemResumeDto = new SystemPeriodResumeDto();
 
-    systemResumeDto.setRainDays(daysPerWeather.get(WeatherEnum.RAIN).size());
+    systemResumeDto.setRainDays(daysPerWeather.get(WeatherEnum.RAIN) != null
+        ? daysPerWeather.get(WeatherEnum.RAIN).size()
+        : 0);
 
-    systemResumeDto.setDroughtDays(daysPerWeather.get(WeatherEnum.DROUGHT).size());
+    systemResumeDto.setDroughtDays(daysPerWeather.get(WeatherEnum.DROUGHT) != null
+        ? daysPerWeather.get(WeatherEnum.DROUGHT).size()
+        : 0);
 
     systemResumeDto.setOptimalPressureTemperatureDays(
         daysPerWeather.get(WeatherEnum.OPTIMAL) != null
@@ -46,7 +50,10 @@ public class CycleService {
     systemResumeDto.setUnknownDays(daysPerWeather.get(WeatherEnum.UNKNOWN).size());
     daysPerWeather.values().forEach(list-> systemResumeDto.getSystemDailyResume().addAll(list));
 
-    SystemDailyResume rainMaxPeakDay =
+    List<String> rainyDays = new ArrayList<>();
+    if(daysPerWeather.get(WeatherEnum.RAIN) != null) {
+
+      SystemDailyResume rainMaxPeakDay =
         daysPerWeather.get(WeatherEnum.RAIN).stream()
             .max(
                 (o1, o2) ->
@@ -55,15 +62,15 @@ public class CycleService {
 
     System.out.println("Max Lluvia: " + rainMaxPeakDay.getPlanetTrianglePerimeter());
 
-    systemResumeDto.setMaxRainDays(
-        daysPerWeather.get(WeatherEnum.RAIN).stream()
-            .filter(
-                resume ->
-                    resume.getPlanetTrianglePerimeter()
-                        == rainMaxPeakDay.getPlanetTrianglePerimeter())
-            .map(resume -> "" + resume.getDayOfCalculation())
-            .collect(Collectors.toList()));
-
+    rainyDays.addAll(daysPerWeather.get(WeatherEnum.RAIN).stream()
+        .filter(
+            resume ->
+                resume.getPlanetTrianglePerimeter()
+                    == rainMaxPeakDay.getPlanetTrianglePerimeter())
+        .map(resume -> "" + resume.getDayOfCalculation())
+        .collect(Collectors.toList()));
+    }
+    systemResumeDto.setMaxRainDays(rainyDays);
     return systemResumeDto;
   }
 
