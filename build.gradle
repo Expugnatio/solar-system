@@ -3,34 +3,52 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        maven {
+            url 'https://repo1.maven.org/maven2/'
+        }
         mavenCentral()
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}')
+        classpath('io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE')
+        classpath('com.google.cloud.tools:appengine-gradle-plugin:2.3.0')
     }
 }
 
 plugins {
-    id "org.springframework.boot" version "2.3.1.RELEASE"
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id "io.spring.dependency-management" version '1.0.9.RELEASE'
+    id 'com.google.cloud.tools.appengine' version '2.3.0'
 }
 
 repositories {
+    maven {
+        url 'https://repo1.maven.org/maven2/'
+    }
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
     mavenCentral()
+    mavenLocal()
 }
-
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 dependencies {
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    testCompile('org.springframework:spring-test')
-    testCompile('org.mockito:mockito-all:1.10.19')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation('org.mockito:mockito-all:1.10.19')
 
-    implementation("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
+    implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
     testCompile ('junit:junit:4.12')
+}
+
+
+appengine {  // App Engine tasks configuration
+    deploy {   // deploy configuration
+        projectId = "solarsystem-ml"
+        version = '2'
+    }
 }
