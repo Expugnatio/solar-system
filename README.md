@@ -9,14 +9,12 @@ time:
 ```
 To view planets position in a specific day I've managed to setup the following math graphs:
 
-```
-https://www.desmos.com/calculator/mwtus6ijl8
-```
+https://www.desmos.com/calculator/6iptuvovf1
 
 The only thing yo have to do is to modify the "g" constant
+______________
 
-
-The Application has 3 endpoints with base url: "localhost:9080"
+The Application has 3 endpoints with base url: "localhost:8080"
 
 1. GET /system/weather?day=XX #Gets records from the 'DB' (previously populated by the Job), if job has not been executed it calculates the record and saves it
 
